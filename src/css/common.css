@@ -16,3 +16,32 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+  margin-top: 20px;
+  width: 100px;
+  height: 50px;
+
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.field {
+  animation: pulse 2s infinite;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
