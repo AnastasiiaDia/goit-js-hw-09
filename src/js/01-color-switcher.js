@@ -1,8 +1,5 @@
-// const buttonStartEl = document.getElementById('start');
 const buttonStartEl = document.querySelector('button[data-start]');
 const buttonStopEl = document.querySelector('button[data-stop]');
-
-// const buttonStopEl = document.getElementById('stop');
 const body = document.querySelector('.body');
 
 buttonStartEl.addEventListener('click', onClickStart);
@@ -10,10 +7,13 @@ buttonStopEl.addEventListener('click', onClickStop);
 
 let intervalId = null;
 
-function onClickStart() {
-  buttonStartEl.disabled = true;
-  buttonStopEl.disabled = false;
+function onClickStopDisabled(boolean) {
+  buttonStopEl.disabled = !boolean;
+  buttonStartEl.disabled = boolean;
+}
 
+function onClickStart() {
+  onClickStopDisabled(true);
   intervalId = setInterval(() => {
     const color = getRandomHexColor();
     body.style.backgroundColor = color;
@@ -23,8 +23,7 @@ function onClickStart() {
 function onClickStop() {
   clearInterval(intervalId);
   intervalId = null;
-  buttonStartEl.disabled = false;
-  buttonStopEl.disabled = true;
+  onClickStopDisabled(false);
 }
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)

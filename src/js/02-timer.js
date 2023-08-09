@@ -18,11 +18,9 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(dates) {
+  onClose([dates]) {
     selectedDates = dates;
-    console.log(selectedDates[0]);
-    if (selectedDates[0] <= Date.now()) {
-      // window.alert('Please choose a date in the future');
+    if (selectedDates <= Date.now()) {
       Notiflix.Notify.warning('Please choose a date in the future');
       startBtnEl.disabled = true;
     } else {
@@ -43,24 +41,29 @@ function addLeadingZero(value) {
 
 function onClick() {
   intervalId = setInterval(() => {
-    let timer = new Date(selectedDates[0]) - Date.now();
+    let timer = selectedDates - Date.now();
     if (timer <= 0) {
       clearInterval(intervalId);
       intervalId = null;
-      refs.days.textContent = '00';
-      refs.hours.textContent = '00';
-      refs.minutes.textContent = '00';
-      refs.seconds.textContent = '00';
+      resetData();
       return;
     }
-    let timerData = convertMs(timer);
-    refs.days.textContent = addLeadingZero(timerData.days);
-    refs.hours.textContent = addLeadingZero(timerData.hours);
-    refs.minutes.textContent = addLeadingZero(timerData.minutes);
-    refs.seconds.textContent = addLeadingZero(timerData.seconds);
+    setData(timer);
   }, 1000);
 }
-
+function resetData() {
+  refs.days.textContent = '00';
+  refs.hours.textContent = '00';
+  refs.minutes.textContent = '00';
+  refs.seconds.textContent = '00';
+}
+function setData(timer) {
+  let timerData = convertMs(timer);
+  refs.days.textContent = addLeadingZero(timerData.days);
+  refs.hours.textContent = addLeadingZero(timerData.hours);
+  refs.minutes.textContent = addLeadingZero(timerData.minutes);
+  refs.seconds.textContent = addLeadingZero(timerData.seconds);
+}
 function convertMs(ms) {
   // Number of milliseconds per unit of time
 
